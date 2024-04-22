@@ -1,20 +1,35 @@
+"use client";
+
+import React, { useState } from "react";
 import MyButton from "@/components/base/button";
-import TableWidget from "@/components/base/table-widget";
-import SidebarPage from "@/components/sidebar/sidebar";
-import React from "react";
+import LineChart from "@/components/base/chart/line-chart";
+import TableWidget from "@/components/base/table/table-widget";
+import { table_1 } from "@/data/tables/tables";
+import TableWidget2 from "@/components/base/table-widget-2";
+import { lineChart1, kpiChart } from "@/data/charts/line-chart";
+import DropdownWidget from "@/components/base/dropdown-widget";
 
 const HomePage = () => {
-  const columns = ["Name", "Age", "Role"]; // Example column names
-  const data = [
-    { Name: "John", Age: 30, Role: "Engineer" },
-    { Name: "Alice", Age: 25, Role: "Manager" },
-    { Name: "Bob", Age: 35, Role: "Technician" },
-  ];
+  const [tableData, setTableData] = useState(table_1);
+
   return (
     <div>
-      <MyButton title="Hello" bgColor="dark" />
-      Tableau Widget
-      <TableWidget columns={columns} data={data} />
+      <h1 className="text-center text-5xl m-4 ">Tableau de bord</h1>
+      <div className="mb-2">
+        <DropdownWidget />
+      </div>
+      <div className="w-2/4">
+        <LineChart data={kpiChart} title="Graphique KPI 2024" />
+      </div>
+      <div className="w-2/4">
+        <TableWidget data={tableData} />
+      </div>
+      <div className="w-2/4">
+        <LineChart
+          data={lineChart1}
+          title="Graphique des activités de surveillance"
+        />
+      </div>
     </div>
   );
 };
