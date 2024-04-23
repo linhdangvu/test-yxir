@@ -71,33 +71,14 @@ export const lineChart1 = {
   },
 
   data: {
-    labels: [
-      "Janvier",
-      "Fevrier",
-      "Mars",
-      "Avril",
-      "Mai",
-      "Juin",
-      "Juillet",
-      "Aout",
-      "Septembre",
-      "Octobre",
-      "Novembre",
-      "Decembre",
-    ],
+    labels: ["L", "M", "M", "J", "V", "S", "D"],
     datasets: [
       {
-        label: "Dataset 1",
-        data: [30, 40, 35, 50, 49, 60, 70],
+        label: "Moyenne quotidien",
+        data: [12, 15, 15, 15, 10, 45, 60],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
-      // {
-      //   label: "Dataset 2",
-      //   data: [30, 40, 35, 50, 49, 60, 20],
-      //   borderColor: "rgb(53, 162, 235)",
-      //   backgroundColor: "rgba(53, 162, 235, 0.5)",
-      // },
     ],
   },
 };
