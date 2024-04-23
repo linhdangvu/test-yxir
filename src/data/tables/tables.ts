@@ -1,5 +1,5 @@
 export const table_1 = {
-  title: "Table 1",
+  title: "Liste de produit",
   columns: [
     { title: "Nom de produit", key: "title", filtered: false },
     { title: "Quantite", key: "qtt", filtered: false },

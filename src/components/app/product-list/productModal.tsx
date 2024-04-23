@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const ProductModal = () => {
+const ProductModal = (props: any) => {
+  const [product, setProduct] = useState("");
+  const [quantite, setQuantite] = useState(0);
+  const [factory, setFactory] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+    props.handleChange(product, quantite, factory);
+  });
+
   return (
     <div>
       <form>
@@ -18,6 +30,10 @@ const ProductModal = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ecrite un nom de produit..."
               required
+              value={product}
+              onChange={(e) => {
+                setProduct(e.target.value);
+              }}
             />
           </div>
           <div>
@@ -28,11 +44,15 @@ const ProductModal = () => {
               Quantité
             </label>
             <input
-              type="text"
+              type="number"
               id="qtt"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Ecrite un nom de produit..."
+              placeholder="Quantité de produit"
               required
+              value={quantite}
+              onChange={(e) => {
+                setQuantite(Number(e.target.value));
+              }}
             />
           </div>
           <div>
@@ -40,14 +60,18 @@ const ProductModal = () => {
               htmlFor="fac"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Industry
+              Industries
             </label>
             <input
               type="text"
               id="fac"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Ecrite un nom de produit..."
+              placeholder="Ecrite un nom d'industrie..."
               required
+              value={factory}
+              onChange={(e) => {
+                setFactory(e.target.value);
+              }}
             />
           </div>
         </div>

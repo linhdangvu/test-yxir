@@ -4,18 +4,23 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   MagnifyingGlassIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
+import { deleteProductData } from "@/utils/useFirebaseApi";
+import { useProduct } from "@/utils/useProduct";
 
 interface TableData {
   columns: any[];
   rows: any[];
 }
 
-const TableWidget = (props: { data: TableData }) => {
+const TableWidget = (props: { data: TableData; handleDelete: any }) => {
   const [filteredDara, setFilteredData] = useState(props.data.rows);
   const [colData, setColData] = useState(props.data.columns);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+
+  const useProd = useProduct();
 
   const handleSortedData = (name: string, idCol: number) => {
     const colPos = props.data.columns[idCol].key;
@@ -30,6 +35,12 @@ const TableWidget = (props: { data: TableData }) => {
     const data = filteredDara.sort((a, b) => (a[colPos] < b[colPos] ? -1 : 1));
     setFilteredData(data);
     setLoading(true);
+  };
+
+  const handleDelete = (id: string) => {
+    props.handleDelete(id);
+    const data = filteredDara.filter((item: any) => item.id !== id);
+    setFilteredData(data);
   };
 
   const handleSortedInverse = (id: number) => {
@@ -113,6 +124,9 @@ const TableWidget = (props: { data: TableData }) => {
                     )}
                   </th>
                 ))}
+              <th className="py-2 px-4 border-gray-100 border-2 bg-gray-300 dark:bg-gray-300">
+                <span className="flex justify-center ">Action</span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -129,6 +143,14 @@ const TableWidget = (props: { data: TableData }) => {
                         : rowData[item.key]}
                     </td>
                   ))}
+                  <td className="border-gray-100 border-2 p-2 text-center">
+                    <div className="flex justify-center">
+                      <TrashIcon
+                        onClick={() => handleDelete(rowData.id)}
+                        className="w-8 h-8 text-black hover:cursor-pointer hover:text-red-500"
+                      />
+                    </div>
+                  </td>
                 </tr>
               ))}
           </tbody>

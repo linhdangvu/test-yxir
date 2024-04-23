@@ -1,16 +1,25 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 interface IModal {
   title: string;
   titleModal: string;
   children: ReactNode;
   action: ReactNode;
+  close: boolean;
+  updateClose: any;
 }
 
 const Modal = (props: IModal) => {
   const [openModal, setOpenModal] = useState(false);
+  // const [close, setClose] = useState(props.close);
 
+  useEffect(() => {
+    console.log("child", props.close);
+    if (props.close) {
+      setOpenModal(false);
+    }
+  });
   return (
     <div>
       <button
@@ -18,7 +27,10 @@ const Modal = (props: IModal) => {
         data-modal-toggle="default-modal"
         className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
         type="button"
-        onClick={() => setOpenModal(!openModal)}
+        onClick={() => {
+          setOpenModal(!openModal);
+          props.updateClose(openModal);
+        }}
       >
         {props.title}
       </button>
@@ -61,7 +73,10 @@ const Modal = (props: IModal) => {
                   data-modal-hide="default-modal"
                   type="button"
                   className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-                  onClick={() => setOpenModal(!openModal)}
+                  onClick={() => {
+                    setOpenModal(!openModal);
+                    props.updateClose(openModal);
+                  }}
                 >
                   Fermer
                 </button>
