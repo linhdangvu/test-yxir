@@ -5,11 +5,10 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
   updateDoc,
 } from "firebase/firestore";
 import { getFirebaseData } from "./useFirebaseApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const useProduct = () => {
   const [productData, setProductData] = useState<IProduct[]>([]);

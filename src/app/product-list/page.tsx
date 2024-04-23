@@ -4,9 +4,8 @@ import { table_1 } from "@/data/tables/tables";
 import TableWidget from "@/components/base/table/table-widget";
 import Modal from "@/components/base/modal";
 import ProductModal from "@/components/app/product-list/productModal";
-import { addProductData, getProductData } from "@/utils/useFirebaseApi";
 import { IProduct } from "@/interface/product";
-import { useProduct } from "@/utils/useProduct";
+import { useProduct } from "@/hooks/useProduct";
 
 const ProductList = () => {
   const [productData, setProductData] = useState<IProduct[]>([]);
@@ -66,10 +65,6 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    console.log("parent update", openModal);
-  });
-
-  useEffect(() => {
     useProd
       .fetchProductData()
       .then((data: any) => {
@@ -87,8 +82,6 @@ const ProductList = () => {
     if (loading) {
       setLoading(false);
     }
-
-    console.log("Hook", useProd.productData);
   });
 
   return (

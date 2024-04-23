@@ -7,8 +7,8 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { deleteProductData } from "@/utils/useFirebaseApi";
-import { useProduct } from "@/utils/useProduct";
+import { deleteProductData } from "@/hooks/useFirebaseApi";
+import { useProduct } from "@/hooks/useProduct";
 import Modal from "../modal";
 import ProductEditModal from "@/components/app/product-list/productEditModal";
 
@@ -78,7 +78,6 @@ const TableWidget = (props: { data: TableData; handleDelete: any }) => {
     } else {
       console.log(`Item with ID ${currentEditId} not found in the array.`);
     }
-    console.log(edit_data);
     setFilteredData(filteredDara);
 
     // Send to Firebase

@@ -16,7 +16,6 @@ const Modal = (props: IModal) => {
   // const [close, setClose] = useState(props.close);
 
   useEffect(() => {
-    console.log("child", props.close);
     if (props.close) {
       setOpenModal(false);
     }

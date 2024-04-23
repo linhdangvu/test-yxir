@@ -6,7 +6,7 @@ import TableWidget from "@/components/base/table/table-widget";
 import { table_1 } from "@/data/tables/tables";
 import { lineChart1, kpiChart } from "@/data/charts/line-chart";
 import DropdownWidget from "@/components/base/dropdown-widget";
-import { getKpiData } from "@/utils/useFirebaseApi";
+import { getKpiData } from "@/hooks/useFirebaseApi";
 
 const HomePage = () => {
   const [tableData, setTableData] = useState(table_1);

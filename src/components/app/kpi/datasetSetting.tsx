@@ -12,6 +12,7 @@ const DatasetSetting = (props: any) => {
   const handleRangeChange = (event: any) => {
     const nVal = parseInt(event.target.value);
     setVal(nVal);
+    props.updateVal(nVal);
   };
 
   return (

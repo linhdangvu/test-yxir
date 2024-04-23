@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import DatasetSetting from "./datasetSetting";
 import Button from "@/components/base/button";
+import { useDatetime } from "@/hooks/useDatetime";
 
-const KpiSetting = () => {
+const KpiSetting = (props: any) => {
+  const useDate = useDatetime();
   const [month, setMonth] = useState("Janvier");
   const [monthId, setMonthId] = useState(0);
   const [loading, setLoading] = useState(true);
   const [prodYeild, setProdYeild] = useState([
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
   const [defautRate, setDefautRate] = useState([
-    0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
   const [delivery, setDelivery] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -18,49 +20,6 @@ const KpiSetting = () => {
   const [feedback, setFeedback] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
-
-  const months = [
-    "Janvier",
-    "Fevrier",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Aout",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Decembre",
-  ];
-  const getMonthIndex = (month: string) => {
-    switch (month) {
-      case "Fevrier":
-        return 1;
-      case "Mars":
-        return 2;
-      case "Avril":
-        return 3;
-      case "Mai":
-        return 4;
-      case "Juin":
-        return 5;
-      case "Juillet":
-        return 6;
-      case "Aout":
-        return 7;
-      case "Septembre":
-        return 8;
-      case "Octobre":
-        return 9;
-      case "Novembre":
-        return 10;
-      case "Decembre":
-        return 11;
-      default:
-        return 0;
-    }
-  };
 
   const handleRangeChange = (event: any, monthId: number) => {
     const nVal = parseInt(event.target.value);
@@ -70,15 +29,39 @@ const KpiSetting = () => {
     setLoading(true);
   };
 
+  // MODAL FUNCTION
+  const handleUpdateRP = (val: number) => {
+    prodYeild[monthId] = val;
+    setProdYeild(prodYeild);
+  };
+
+  const handleUpdateDR = (val: number) => {
+    defautRate[monthId] = val;
+    setDefautRate(defautRate);
+  };
+
+  const handleUpdateD = (val: number) => {
+    delivery[monthId] = val;
+    setDelivery(delivery);
+  };
+
+  const handleUpdateFB = (val: number) => {
+    feedback[monthId] = val;
+    setFeedback(feedback);
+  };
+
+  // const handleSave = () => {};
+
   useEffect(() => {
     if (loading) {
       setLoading(false);
     }
+    props.updateData(prodYeild, defautRate, delivery, feedback);
   });
   return (
     <div className="md:flex">
       <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
-        {months.map((item: any, index: number) => (
+        {useDate.months.map((item: any, index: number) => (
           <li key={index}>
             {item == month ? (
               <a
@@ -91,7 +74,7 @@ const KpiSetting = () => {
               <a
                 onClick={() => {
                   setMonth(item);
-                  setMonthId(getMonthIndex(item));
+                  setMonthId(useDate.getMonthIndex(item));
                   setLoading(true);
                 }}
                 href="#"
@@ -110,18 +93,31 @@ const KpiSetting = () => {
             <DatasetSetting
               title="Rendement de production"
               val={prodYeild[monthId]}
+              updateVal={handleUpdateRP}
             />
 
-            <DatasetSetting title="Taux de défauts" val={defautRate[monthId]} />
+            <DatasetSetting
+              title="Taux de défauts"
+              val={defautRate[monthId]}
+              updateVal={handleUpdateDR}
+            />
 
-            <DatasetSetting title="Livraison à temps" val={delivery[monthId]} />
+            <DatasetSetting
+              title="Livraison à temps"
+              val={delivery[monthId]}
+              updateVal={handleUpdateD}
+            />
 
-            <DatasetSetting title="Commentaires" val={feedback[monthId]} />
+            <DatasetSetting
+              title="Commentaires"
+              val={feedback[monthId]}
+              updateVal={handleUpdateFB}
+            />
           </div>
         )}
-        <div className="my-4 text-right">
+        {/* <div className="my-4 text-right" onClick={handleSave}>
           <Button title="Enregistre" bgColor="green" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
