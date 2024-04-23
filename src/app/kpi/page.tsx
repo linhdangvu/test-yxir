@@ -12,6 +12,7 @@ const KPIPage = () => {
   const [kpiData, setKpiData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isClose, setIsClose] = useState(false);
+  const [title, setTitle] = useState("");
   const [prodYeild, setProdYeild] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
@@ -32,6 +33,7 @@ const KPIPage = () => {
 
   const handleAddKpi = () => {
     const kpi: IKpi = {
+      title: title,
       datasets: [
         {
           label: "Rendement de production",
@@ -65,6 +67,7 @@ const KPIPage = () => {
       .then((id: any) => {
         const kpiList: any = useKpi.firebaseToKPI(kpi.datasets);
         kpiList["id"] = id;
+        kpiList["title"] = title;
         kpiData.push(kpiList);
         setKpiData(kpiData);
         setLoading(true);
@@ -80,12 +83,14 @@ const KPIPage = () => {
     prodYeild: number[],
     defautRate: number[],
     delivery: number[],
-    feedback: number[]
+    feedback: number[],
+    title: string
   ) => {
     setProdYeild(prodYeild);
     setDefautRate(defautRate);
     setDelivery(delivery);
     setFeedback(feedback);
+    setTitle(title);
   };
 
   const handleDelete = async (id: string) => {
@@ -105,7 +110,7 @@ const KPIPage = () => {
         const kpiList: any = [];
         data.map((item: any) => {
           const ndata = useKpi.firebaseToKPI(item.datasets);
-          kpiList.push({ ...ndata, ...{ id: item.id } });
+          kpiList.push({ ...ndata, ...{ id: item.id, title: item.title } });
         });
         console.log(kpiList);
         setKpiData(kpiList);
@@ -178,7 +183,10 @@ const KPIPage = () => {
                   onClick={() => handleDelete(item.id)}
                   className="absolute right-4 top-4 text-right w-6 h-6   hover:cursor-pointer hover:text-red-500"
                 />
-                <LineChart data={item} title="KPI" />
+                <LineChart
+                  data={item}
+                  title={item.title ? item.title : "KPI"}
+                />
               </div>
             ))}
           </div>

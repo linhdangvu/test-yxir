@@ -7,5 +7,6 @@ export interface IDatasetsKpi {
 
 export interface IKpi {
   id?: string;
+  title?: string;
   datasets: IDatasetsKpi[];
 }
