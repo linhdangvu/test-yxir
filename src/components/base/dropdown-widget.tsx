@@ -1,8 +1,18 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 
-const Dropdown = () => {
+const Dropdown = (props: any) => {
   const [openDropdown, setOpenDropdown] = useState(false);
+  const dropdownContent = [
+    "Graphique de surveillance", // 0
+    "Graphique KPI", // 1
+    "Tableau", // 2
+    "Carte", // 3
+  ];
+
+  const handleDropdown = (id: number) => {
+    props.handleDropdownData(id);
+  };
 
   return (
     <div className="relative inline-block text-left mb-4">
@@ -16,18 +26,7 @@ const Dropdown = () => {
           onClick={() => setOpenDropdown(!openDropdown)}
         >
           Ajouter un widget
-          <svg
-            className="-mr-1 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <ChevronDownIcon className="w-4 h-4 ml-2" />
         </button>
       </div>
       {openDropdown && (
@@ -37,46 +36,20 @@ const Dropdown = () => {
           aria-orientation="vertical"
           aria-labelledby="menu-button"
         >
-          <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              id="menu-item-0"
-            >
-              Graphique de surveillance
-            </a>
-          </div>
-          <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              id="menu-item-2"
-            >
-              Graphique KPI
-            </a>
-          </div>
-          <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              id="menu-item-4"
-            >
-              Tableau
-            </a>
-          </div>
-          <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              id="menu-item-6"
-            >
-              Carte
-            </a>
-          </div>
+          {dropdownContent.map((item, index) => {
+            return (
+              <div
+                key={index}
+                className="py-1 hover:bg-gray-50 cursor-pointer"
+                role="none"
+                onClick={() => handleDropdown(index)}
+              >
+                <span className="text-gray-700 block px-4 py-2 text-sm">
+                  {item}
+                </span>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

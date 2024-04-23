@@ -1,4 +1,9 @@
-import { HomeIcon } from "@heroicons/react/24/outline";
+import {
+  ChartBarIcon,
+  HomeIcon,
+  MapIcon,
+  TableCellsIcon,
+} from "@heroicons/react/24/outline";
 import React from "react";
 
 const SidebarPage = () => {
@@ -13,11 +18,38 @@ const SidebarPage = () => {
           <ul className="space-y-2 font-medium">
             <li>
               <a
-                href="#"
+                href="/"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <HomeIcon className="h-6 w-6 text-white-500" />
                 <span className="ms-3">Tableau de bord</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/kpi"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <ChartBarIcon className="h-6 w-6 text-white-500" />
+                <span className="ms-3">Graphique KPI</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/product-list"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <TableCellsIcon className="h-6 w-6 text-white-500" />
+                <span className="ms-3">Liste de produits</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/carte"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <MapIcon className="h-6 w-6 text-white-500" />
+                <span className="ms-3">Cartes</span>
               </a>
             </li>
           </ul>

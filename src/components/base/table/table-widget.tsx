@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MyButton from "@/components/base/button";
+import Button from "@/components/base/button";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -46,7 +46,10 @@ const TableWidget = (props: { data: TableData }) => {
       setLoading(true);
     } else {
       const data = filteredDara.filter((item: any) => {
-        return item.name.match(new RegExp(search, "i"));
+        return (
+          item.title.match(new RegExp(search, "i")) ||
+          item.fac.match(new RegExp(search, "i"))
+        );
       });
       setFilteredData(data);
       setLoading(true);
@@ -121,7 +124,9 @@ const TableWidget = (props: { data: TableData }) => {
                       className="border-gray-100 border-2 p-2 text-center "
                       key={index}
                     >
-                      {rowData[item.key]}
+                      {item.key == "createdDate"
+                        ? JSON.stringify(rowData[item.key])
+                        : rowData[item.key]}
                     </td>
                   ))}
                 </tr>
