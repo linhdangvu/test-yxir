@@ -6,6 +6,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { getFirebaseData } from "./useFirebaseApi";
 import { useEffect, useState } from "react";
@@ -50,6 +51,16 @@ export const useProduct = () => {
     }
   };
 
+  const editProductData = async (id: string, data: any) => {
+    try {
+      const docRef = await updateDoc(doc(db, "Product", id), data);
+      console.log("Document edit with ID: ", docRef);
+      //   return docRef.id;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   const deleteProductData = async (id: string) => {
     try {
       await deleteDoc(doc(db, "Product", id));
@@ -82,10 +93,6 @@ export const useProduct = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("Product", productData);
-  });
-
   return {
     deleteProductData,
     addProductData,
@@ -96,5 +103,6 @@ export const useProduct = () => {
     setData,
     getData,
     productData,
+    editProductData,
   };
 };

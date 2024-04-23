@@ -4,10 +4,13 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   MagnifyingGlassIcon,
+  PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { deleteProductData } from "@/utils/useFirebaseApi";
 import { useProduct } from "@/utils/useProduct";
+import Modal from "../modal";
+import ProductEditModal from "@/components/app/product-list/productEditModal";
 
 interface TableData {
   columns: any[];
@@ -19,6 +22,12 @@ const TableWidget = (props: { data: TableData; handleDelete: any }) => {
   const [colData, setColData] = useState(props.data.columns);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [editModal, setEditModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [product, setProduct] = useState("");
+  const [quantite, setQuantite] = useState(0);
+  const [factory, setFactory] = useState("");
+  const [currentEditId, setCurrentEditId] = useState("");
 
   const useProd = useProduct();
 
@@ -41,6 +50,41 @@ const TableWidget = (props: { data: TableData; handleDelete: any }) => {
     props.handleDelete(id);
     const data = filteredDara.filter((item: any) => item.id !== id);
     setFilteredData(data);
+  };
+
+  const handleChangeModal = (product: string, qtt: number, fac: string) => {
+    setProduct(product);
+    setQuantite(qtt);
+    setFactory(fac);
+  };
+
+  const handleClose = (isOpen: boolean) => {
+    setOpenModal(isOpen);
+  };
+
+  const handleEditProduct = () => {
+    const edit_data = {
+      // id: currentEditId,
+      title: product,
+      qtt: quantite,
+      fac: factory,
+    };
+    const index = filteredDara.findIndex((item) => item.id === currentEditId);
+    if (index !== -1) {
+      filteredDara[index]["title"] = edit_data["title"];
+      filteredDara[index]["qtt"] = edit_data["qtt"];
+      filteredDara[index]["fac"] = edit_data["fac"];
+      console.log("Item updated successfully.");
+    } else {
+      console.log(`Item with ID ${currentEditId} not found in the array.`);
+    }
+    console.log(edit_data);
+    setFilteredData(filteredDara);
+
+    // Send to Firebase
+    useProd.editProductData(currentEditId, edit_data);
+
+    setOpenModal(true);
   };
 
   const handleSortedInverse = (id: number) => {
@@ -149,6 +193,36 @@ const TableWidget = (props: { data: TableData; handleDelete: any }) => {
                         onClick={() => handleDelete(rowData.id)}
                         className="w-8 h-8 text-black hover:cursor-pointer hover:text-red-500"
                       />
+                      <div onClick={() => setCurrentEditId(rowData.id)}>
+                        {" "}
+                        <Modal
+                          close={openModal}
+                          title=""
+                          icon={
+                            <PencilSquareIcon className="w-8 h-8 text-black hover:cursor-pointer hover:text-yellow-500" />
+                          }
+                          titleModal="Edit"
+                          children={
+                            <ProductEditModal
+                              handleChange={handleChangeModal}
+                              data={rowData}
+                            />
+                          }
+                          action={
+                            <div className="mr-3">
+                              <button
+                                data-modal-hide="default-modal"
+                                type="button"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                onClick={handleEditProduct}
+                              >
+                                Modifier
+                              </button>
+                            </div>
+                          }
+                          updateClose={handleClose}
+                        />
+                      </div>
                     </div>
                   </td>
                 </tr>

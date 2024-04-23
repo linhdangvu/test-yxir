@@ -6,7 +6,8 @@ interface IModal {
   titleModal: string;
   children: ReactNode;
   action: ReactNode;
-  close: boolean;
+  icon?: ReactNode;
+  close?: boolean;
   updateClose: any;
 }
 
@@ -22,18 +23,32 @@ const Modal = (props: IModal) => {
   });
   return (
     <div>
-      <button
-        data-modal-target="default-modal"
-        data-modal-toggle="default-modal"
-        className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-        type="button"
-        onClick={() => {
-          setOpenModal(!openModal);
-          props.updateClose(openModal);
-        }}
-      >
-        {props.title}
-      </button>
+      {props.title !== "" && (
+        <button
+          data-modal-target="default-modal"
+          data-modal-toggle="default-modal"
+          className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+          type="button"
+          onClick={() => {
+            setOpenModal(!openModal);
+
+            props.updateClose(openModal);
+          }}
+        >
+          {props.title}
+        </button>
+      )}
+      {props.icon && (
+        <div
+          onClick={() => {
+            setOpenModal(!openModal);
+            props.updateClose(openModal);
+          }}
+        >
+          {" "}
+          {props.icon}
+        </div>
+      )}
 
       {openModal && (
         <div
