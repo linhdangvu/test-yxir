@@ -1,5 +1,10 @@
 import React from "react";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import {
+  Annotation,
+  ComposableMap,
+  Geographies,
+  Geography,
+} from "react-simple-maps";
 // import "./map.css";
 import { mapData } from "@/data/map/map-data";
 
@@ -17,6 +22,20 @@ const MapPage = (props: { isDemo?: boolean }) => {
             ))
           }
         </Geographies>
+        <Annotation
+          subject={[2.3522, 48.8566]}
+          dx={-30}
+          dy={-20}
+          connectorProps={{
+            stroke: "#FF5533",
+            strokeWidth: 3,
+            strokeLinecap: "round",
+          }}
+        >
+          <text x="-8" textAnchor="end" alignmentBaseline="middle" fill="#F53">
+            {"Paris"}
+          </text>
+        </Annotation>
       </ComposableMap>
     </div>
   );
