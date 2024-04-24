@@ -126,7 +126,6 @@ const KPIPage = () => {
           const ndata = useKpi.firebaseToKPI(item.datasets);
           kpiList.push({ ...ndata, ...{ id: item.id, title: item.title } });
         });
-        console.log(kpiList);
         setKpiData(kpiList);
         setLoading(true);
       })

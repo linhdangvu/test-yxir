@@ -4,8 +4,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SidebarPage from "@/components/base/sidebar/sidebar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import TextLoading from "@/components/base/loading/text-loading";
 import { usePathname, useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,28 +16,48 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const auth = useAuth();
-  const router = useRouter();
+  // use hook
   const pathname = usePathname();
+  const router = useRouter();
+  const auth = useAuth();
 
+  const [loading, setLoading] = useState(true);
+  const [isLogin, setLogin] = useState(false);
+
+  // get login status
   useEffect(() => {
-    auth.isLoggedin();
-    console.log(pathname);
-    // if (!auth.isLogin && !pathname.includes("auth")) {
-    //   router.push("/auth/login");
-    // }
+    // setLoading(true);
+    const logStatus = auth.isLoggedin();
+    setLogin(logStatus);
+    if (pathname.includes("auth")) {
+      if (logStatus) {
+        router.push("/");
+      }
+    } else {
+      if (!logStatus) {
+        router.push("/auth/login");
+      }
+    }
+
+    setLoading(false);
   });
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        {auth.isLogin ? (
-          <div>
-            <SidebarPage />
-            <div className="p-4 sm:ml-64">{children} </div>
-          </div>
+        {loading ? (
+          <TextLoading />
         ) : (
-          <div>{children} </div>
+          <div>
+            {isLogin ? (
+              <div>
+                <SidebarPage />
+                <div className="p-4 sm:ml-64">{children} </div>
+              </div>
+            ) : (
+              <div>{children} </div>
+            )}
+          </div>
         )}
       </body>
     </html>

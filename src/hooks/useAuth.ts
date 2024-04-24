@@ -8,7 +8,9 @@ export const useAuth = () => {
     if (typeof localStorage !== undefined) {
       const item = localStorage.getItem("is-login");
       setIsLogin(item === "true");
+      return item === "true";
     }
+    return false;
   };
 
   // set is-login on localStorage as false

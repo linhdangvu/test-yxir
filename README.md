@@ -14,6 +14,7 @@ Dans cette application, on peut:
 - **Afficher**, **Ajouter**, **Modifier**, **Supprimer** des produits dans `Liste des produits`
 - **Afficher** un map dans `Carte`
 - **Afficher** un graphique de surveillance d'activités dans `Activité de surveillance`
+- **Se connecter**, **Déconnecter** et **S'inscrire** pour authentification `Firebase Authentification`. Pour le moment, j'ai déactivé la fonction vérifier l'email sur Firebase pour qu'on peux s'inscrire avec des fauxe email.
 
 **Langage utilisé**: ReactJS, NextJS, Typescript, Tailwind, Firesbase (pour des données et authentification)
 

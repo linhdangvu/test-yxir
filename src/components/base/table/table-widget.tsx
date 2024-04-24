@@ -254,7 +254,13 @@ const TableWidget = (props: {
                     )}
                   </tr>
                 ))}
-              {loading && <TextLoading />}
+              {loading && (
+                <tr>
+                  <td>
+                    <TextLoading />
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -281,7 +287,11 @@ const TableWidget = (props: {
                       )}
                     </th>
                   ))}
-                {loading && <TextLoading />}
+                {loading && (
+                  <td>
+                    <TextLoading />
+                  </td>
+                )}
               </tr>
             </thead>
             <tbody>
