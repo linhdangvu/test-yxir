@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Button from "@/components/base/button/button";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -7,11 +6,9 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { deleteProductData } from "@/hooks/useFirebaseApi";
 import { useProduct } from "@/hooks/useProduct";
 import Modal from "../modal/modal";
 import ProductEditModal from "@/components/app/product-list/productEditModal";
-import { Timestamp } from "firebase/firestore";
 import { useDatetime } from "@/hooks/useDatetime";
 
 interface TableData {

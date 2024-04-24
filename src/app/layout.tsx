@@ -3,7 +3,7 @@
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SidebarPage from "@/components/sidebar/sidebar";
+import SidebarPage from "@/components/base/sidebar/sidebar";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { usePathname, useRouter } from "next/navigation";

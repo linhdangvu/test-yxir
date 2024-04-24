@@ -1,7 +1,13 @@
-import React from "react";
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
-const Login = () => {
-  return <div>Login</div>;
+const Auth = () => {
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/auth/login");
+  });
+  return <div></div>;
 };
 
-export default Login;
+export default Auth;

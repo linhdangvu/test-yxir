@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./chart.css";
 import {
   Chart as ChartJS,
   CategoryScale,

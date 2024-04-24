@@ -5,7 +5,6 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
-// import "./map.css";
 import { mapData } from "@/data/map/map-data";
 
 const MapPage = (props: { isDemo?: boolean }) => {
