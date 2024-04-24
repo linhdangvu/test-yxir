@@ -1,3 +1,4 @@
+// used to test data table, not use for now
 export const table_1 = {
   title: "Liste de produit",
   columns: [

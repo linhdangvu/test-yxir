@@ -15,8 +15,10 @@ const SidebarPage = () => {
   const router = useRouter();
   const auth = useAuth();
 
+  // log out auth
   const logOut = () => {
     auth.isLogOut();
+    router.push("/auth/login");
   };
 
   return (

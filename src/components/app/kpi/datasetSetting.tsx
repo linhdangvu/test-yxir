@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 
-interface Setting {
-  title: string;
-  val: number;
-}
-
 const DatasetSetting = (props: any) => {
   const [val, setVal] = useState(props.val);
   const [title, setTitle] = useState(props.title);

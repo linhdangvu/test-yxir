@@ -10,6 +10,8 @@ import { useProduct } from "@/hooks/useProduct";
 import Modal from "../modal/modal";
 import ProductEditModal from "@/components/app/product-list/productEditModal";
 import { useDatetime } from "@/hooks/useDatetime";
+import TextLoading from "../loading/text-loading";
+import Loading from "../loading/loading";
 
 interface TableData {
   columns: any[];
@@ -22,22 +24,25 @@ const TableWidget = (props: {
   showAction?: boolean;
   isDemo?: boolean;
 }) => {
+  // use hooks
+  const useProd = useProduct();
+  const datetime = useDatetime();
+
   const [filteredDara, setFilteredData] = useState(props.data.rows);
   const [colData, setColData] = useState(props.data.columns);
   const [loading, setLoading] = useState(true);
+  const [loadingBtn, setLoadingBtn] = useState(false);
   const [search, setSearch] = useState("");
-  const [editModal, setEditModal] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [isClose, setIsClose] = useState(false);
   const [product, setProduct] = useState("");
   const [quantite, setQuantite] = useState(0);
   const [factory, setFactory] = useState("");
   const [currentEditId, setCurrentEditId] = useState("");
-  const [showAction, setShowAction] = useState(props.showAction);
+  const [showAction, setShowAction] = useState(props.showAction); // show action delete é edit
 
-  const useProd = useProduct();
-  const datetime = useDatetime();
-
-  const handleSortedData = (name: string, idCol: number) => {
+  // ----- SORT TABLE -----
+  // sort a-z 1-2
+  const handleSortedData = (idCol: number) => {
     const colPos = props.data.columns[idCol].key;
     colData.map((item, index) => {
       if (idCol == index) {
@@ -52,46 +57,7 @@ const TableWidget = (props: {
     setLoading(true);
   };
 
-  const handleDelete = (id: string) => {
-    props.handleDelete(id);
-    const data = filteredDara.filter((item: any) => item.id !== id);
-    setFilteredData(data);
-  };
-
-  const handleChangeModal = (product: string, qtt: number, fac: string) => {
-    setProduct(product);
-    setQuantite(qtt);
-    setFactory(fac);
-  };
-
-  const handleClose = (isOpen: boolean) => {
-    setOpenModal(isOpen);
-  };
-
-  const handleEditProduct = () => {
-    const edit_data = {
-      // id: currentEditId,
-      title: product,
-      qtt: quantite,
-      fac: factory,
-    };
-    const index = filteredDara.findIndex((item) => item.id === currentEditId);
-    if (index !== -1) {
-      filteredDara[index]["title"] = edit_data["title"];
-      filteredDara[index]["qtt"] = edit_data["qtt"];
-      filteredDara[index]["fac"] = edit_data["fac"];
-      console.log("Item updated successfully.");
-    } else {
-      console.log(`Item with ID ${currentEditId} not found in the array.`);
-    }
-    setFilteredData(filteredDara);
-
-    // Send to Firebase
-    useProd.editProductData(currentEditId, edit_data);
-
-    setOpenModal(true);
-  };
-
+  // sort z-a 2-1
   const handleSortedInverse = (id: number) => {
     colData[id].filtered = !colData[id].filtered;
     setColData(colData);
@@ -100,6 +66,7 @@ const TableWidget = (props: {
     setLoading(true);
   };
 
+  // search by title and factory
   const handleSearch = (search: string) => {
     if (!search) {
       setFilteredData(props.data.rows);
@@ -116,6 +83,54 @@ const TableWidget = (props: {
     }
   };
 
+  // delete product
+  const handleDelete = (id: string) => {
+    props.handleDelete(id);
+    const data = filteredDara.filter((item: any) => item.id !== id);
+    setFilteredData(data);
+  };
+
+  // ----- MODAL -----
+  // get modal from ProductEditModal
+  const handleChangeModal = (product: string, qtt: number, fac: string) => {
+    setProduct(product);
+    setQuantite(qtt);
+    setFactory(fac);
+  };
+
+  // close modal
+  const handleClose = (isOpen: boolean) => {
+    setIsClose(isOpen);
+  };
+
+  // send edit data to firebase
+  const handleEditProduct = () => {
+    setLoadingBtn(true);
+    const edit_data = {
+      // id: currentEditId,
+      title: product,
+      qtt: quantite,
+      fac: factory,
+    };
+    const index = filteredDara.findIndex((item) => item.id === currentEditId);
+    if (index !== -1) {
+      filteredDara[index]["title"] = edit_data["title"];
+      filteredDara[index]["qtt"] = edit_data["qtt"];
+      filteredDara[index]["fac"] = edit_data["fac"];
+      console.log("Item updated successfully.");
+    } else {
+      console.log(`Item with ID ${currentEditId} not found in the array.`);
+    }
+    // edit for DOM
+    setFilteredData(filteredDara);
+
+    // Send to Firebase
+    useProd.editProductData(currentEditId, edit_data);
+    setLoadingBtn(false);
+    setIsClose(true);
+  };
+
+  // watch loading
   useEffect(() => {
     if (loading) {
       setLoading(false);
@@ -169,7 +184,7 @@ const TableWidget = (props: {
                       ) : (
                         <span
                           className="flex justify-center hover:cursor-pointer"
-                          onClick={() => handleSortedData(item, index)}
+                          onClick={() => handleSortedData(index)}
                         >
                           {item.title}
                           <ChevronDownIcon className="w-5 h-5 ml-2 mt-1" />
@@ -207,7 +222,7 @@ const TableWidget = (props: {
                           />
                           <div onClick={() => setCurrentEditId(rowData.id)}>
                             <Modal
-                              close={openModal}
+                              close={isClose}
                               title=""
                               icon={
                                 <PencilSquareIcon className="w-8 h-8 text-black hover:cursor-pointer hover:text-yellow-500" />
@@ -227,7 +242,7 @@ const TableWidget = (props: {
                                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     onClick={handleEditProduct}
                                   >
-                                    Modifier
+                                    {loadingBtn ? <Loading /> : "Modifier"}
                                   </button>
                                 </div>
                               }
@@ -239,6 +254,7 @@ const TableWidget = (props: {
                     )}
                   </tr>
                 ))}
+              {loading && <TextLoading />}
             </tbody>
           </table>
         </div>
@@ -265,6 +281,7 @@ const TableWidget = (props: {
                       )}
                     </th>
                   ))}
+                {loading && <TextLoading />}
               </tr>
             </thead>
             <tbody>

@@ -1,46 +1,26 @@
-import { IProduct } from "@/interface/product";
-import { db } from "@/utils/firebase";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
-import { getFirebaseData } from "./useFirebaseApi";
-import { IDatasetsKpi, IKpi } from "@/interface/kpi";
+import {
+  addFirebaseData,
+  deleteFirebaseData,
+  getFirebaseData,
+} from "./useFirebaseApi";
+import { IDatasetsKpi } from "@/interface/kpi";
 
 export const useKpiData = () => {
   const TIME_OUT = 500;
 
-  const getKpiData = async () => {
-    try {
-      const data = await getFirebaseData("KPI");
-      return data;
-    } catch (e) {
-      console.error("Error get document: ", e);
-    }
-  };
-
+  // get graph data
   const fetchKpiData = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = getKpiData();
+        const data = getFirebaseData("KPI");
         resolve(data);
       }, TIME_OUT);
     });
   };
 
-  const addKpiData = async (data: { datasets: IDatasetsKpi[] }) => {
-    try {
-      const docRef = await addDoc(collection(db, "KPI"), data);
-      console.log("Document written with ID: ", docRef.id);
-      return docRef.id;
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-
+  // delete graph data
   const deleteKpiData = async (id: string) => {
-    try {
-      await deleteDoc(doc(db, "KPI", id));
-    } catch (e) {
-      console.error("Error delete document: ", e);
-    }
+    await deleteFirebaseData("KPI", id);
   };
 
   const firebaseToKPI = (datasets: IDatasetsKpi[] | any) => {
@@ -80,10 +60,11 @@ export const useKpiData = () => {
     return default_data;
   };
 
+  // add graph data
   const fetchAddKpiData = (kpiData: { datasets: IDatasetsKpi[] }) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = addKpiData(kpiData);
+        const data = addFirebaseData("KPI", kpiData);
         resolve(data);
       }, TIME_OUT);
     });

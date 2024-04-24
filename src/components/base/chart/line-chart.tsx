@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { XCircleIcon } from "@heroicons/react/24/outline";
+import { IChart } from "@/interface/kpi";
 
 ChartJS.register(
   CategoryScale,
@@ -21,11 +21,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-interface IChart {
-  title: string;
-  data: any;
-}
 
 const LineChart = (props: IChart) => {
   const [lineChartData, setLineChartData] = useState(props.data);

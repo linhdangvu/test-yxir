@@ -6,11 +6,14 @@ import Modal from "@/components/base/modal/modal";
 import KpiSettingModal from "@/components/app/kpi/kpiSettingModal";
 import { useKpiData } from "@/hooks/useKpiData";
 import { IKpi } from "@/interface/kpi";
+import Loading from "@/components/base/loading/loading";
 
 const KPIPage = () => {
+  // use hooks
   const useKpi = useKpiData();
   const [kpiData, setKpiData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingBtn, setLoadingBtn] = useState(false);
   const [isClose, setIsClose] = useState(false);
   const [title, setTitle] = useState("");
   const [prodYeild, setProdYeild] = useState([
@@ -26,12 +29,15 @@ const KPIPage = () => {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-  // Modal Function
+  // ----- Modal Function -----
+  // Clode modal
   const handleClose = (isOpen: boolean) => {
     setIsClose(isOpen);
   };
 
+  // Add kip data to firebase
   const handleAddKpi = () => {
+    setLoadingBtn(true);
     const kpi: IKpi = {
       title: title,
       datasets: [
@@ -62,23 +68,29 @@ const KPIPage = () => {
       ],
     };
 
+    // add to firebase
     useKpi
       .fetchAddKpiData(kpi)
       .then((id: any) => {
         const kpiList: any = useKpi.firebaseToKPI(kpi.datasets);
         kpiList["id"] = id;
         kpiList["title"] = title;
+
+        // add to DOM
         kpiData.push(kpiList);
         setKpiData(kpiData);
         setLoading(true);
+        setLoadingBtn(false);
         setIsClose(true);
       })
       .catch((error) => {
         console.error("Error fetching kpi data:", error);
       });
-    setIsClose(true);
+
+    // setIsClose(true);
   };
 
+  // data update from KPI setting modal
   const handleUpdateData = (
     prodYeild: number[],
     defautRate: number[],
@@ -93,6 +105,7 @@ const KPIPage = () => {
     setTitle(title);
   };
 
+  // delete kpi
   const handleDelete = async (id: string) => {
     // Delete on DOM
     const data = kpiData.filter((item: any) => item.id != id);
@@ -103,6 +116,7 @@ const KPIPage = () => {
     await useKpi.deleteKpiData(id);
   };
 
+  // get kpi data
   useEffect(() => {
     useKpi
       .fetchKpiData()
@@ -121,6 +135,7 @@ const KPIPage = () => {
       });
   }, []);
 
+  // watch loading
   useEffect(() => {
     if (loading) {
       setLoading(false);
@@ -149,7 +164,7 @@ const KPIPage = () => {
                 className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                 onClick={handleAddKpi}
               >
-                Ajouter
+                {loadingBtn ? <Loading /> : "Ajouter"}
               </button>
             </div>
           }

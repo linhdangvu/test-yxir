@@ -1,5 +1,3 @@
-import { db } from "@/utils/firebase";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import {
   addFirebaseData,
   deleteFirebaseData,

@@ -3,21 +3,18 @@ import { useState } from "react";
 export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(false);
 
+  // check if is-login is on localStorage
   const isLoggedin = () => {
-    if (typeof window !== "undefined") {
+    if (typeof localStorage !== undefined) {
       const item = localStorage.getItem("is-login");
       setIsLogin(item === "true");
     }
   };
 
-  //   const redirectTo = (link: string) => {
-  //     router.push(link);
-  //   };
-
+  // set is-login on localStorage as false
   const isLogOut = () => {
     if (typeof localStorage !== undefined) {
       localStorage.setItem("is-login", "false");
-      //   redirectTo("/auth/login");
     }
   };
 

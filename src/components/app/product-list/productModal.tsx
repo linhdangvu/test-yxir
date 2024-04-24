@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const ProductModal = (props: any) => {
+  //use Hooks
   const [product, setProduct] = useState("");
   const [quantite, setQuantite] = useState(0);
   const [factory, setFactory] = useState("");
-  const [loading, setLoading] = useState(true);
 
+  //sent to ProductPage
   useEffect(() => {
-    if (loading) {
-      setLoading(false);
-    }
+    // sent to ProductPage
     props.handleChange(product, quantite, factory);
   });
 

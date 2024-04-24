@@ -22,14 +22,14 @@ const Signup = () => {
   };
 
   const handleSignup = () => {
-    // if login ok
+    // if signup ok
     if (email === "" || password === "") {
       setErrorMessage("Ecrire email et mot de passe s'il vous plaît");
     } else {
       if (validateEmail(email)) {
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            // Signed in
+            // Signed up
             const user = userCredential.user;
             console.log(user);
             if (

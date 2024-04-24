@@ -65,7 +65,7 @@ export const lineChart1 = {
       },
       title: {
         display: false,
-        text: "Line Chart Example",
+        text: "Surveillance de l'activité",
       },
     },
   },

@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 
 const Auth = () => {
   const router = useRouter();
+
+  // Redirect to Login
   useEffect(() => {
     router.push("/auth/login");
   });

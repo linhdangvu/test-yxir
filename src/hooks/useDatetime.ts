@@ -14,6 +14,7 @@ export const useDatetime = () => {
     "Decembre",
   ];
 
+  // convert data time from firebase
   const convertFirebaseDate = (data: any) => {
     const date = new Date(data.seconds * 1000 + data.nanoseconds / 1000000);
     return date
@@ -22,6 +23,7 @@ export const useDatetime = () => {
       .replace(/\.\d+Z$/, "");
   };
 
+  // re-convert to DOM
   const toNanosecond = (date: Date) => {
     const seconds = Math.floor(date.getTime() / 1000);
     const nanoseconds = (date.getTime() % 1000) * 1e6;
@@ -31,6 +33,7 @@ export const useDatetime = () => {
     };
   };
 
+  // get index count by month
   const getMonthIndex = (month: string) => {
     switch (month) {
       case "Fevrier":

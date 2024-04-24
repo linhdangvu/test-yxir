@@ -7,7 +7,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-// Create
+// Read
 export const getFirebaseData = async (nameCollection: string) => {
   const data = collection(db, nameCollection);
   const dataSnapshot = await getDocs(data);
@@ -17,7 +17,7 @@ export const getFirebaseData = async (nameCollection: string) => {
   return dataList;
 };
 
-// Add
+// Create
 export const addFirebaseData = async (nameCollection: string, data: any) => {
   try {
     const docRef = await addDoc(collection(db, nameCollection), data);

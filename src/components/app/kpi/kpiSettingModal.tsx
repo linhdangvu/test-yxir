@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import DatasetSetting from "./datasetSetting";
-import Button from "@/components/base/button/button";
 import { useDatetime } from "@/hooks/useDatetime";
+import Loading from "@/components/base/loading/loading";
 
 const KpiSetting = (props: any) => {
+  // Use Hooks
   const useDate = useDatetime();
+
   const [title, setTitle] = useState("");
   const [month, setMonth] = useState("Janvier");
   const [monthId, setMonthId] = useState(0);
@@ -22,36 +24,31 @@ const KpiSetting = (props: any) => {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-  const handleRangeChange = (event: any, monthId: number) => {
-    const nVal = parseInt(event.target.value);
-    prodYeild[monthId] = nVal;
-    console.log(prodYeild);
-    setProdYeild(prodYeild);
-    setLoading(true);
-  };
+  // ----- MODAL FUNCTION -----
 
-  // MODAL FUNCTION
+  // update production yield
   const handleUpdateRP = (val: number) => {
     prodYeild[monthId] = val;
     setProdYeild(prodYeild);
   };
 
+  // update defect rate
   const handleUpdateDR = (val: number) => {
     defautRate[monthId] = val;
     setDefautRate(defautRate);
   };
 
+  // update delivery
   const handleUpdateD = (val: number) => {
     delivery[monthId] = val;
     setDelivery(delivery);
   };
 
+  // update feedback
   const handleUpdateFB = (val: number) => {
     feedback[monthId] = val;
     setFeedback(feedback);
   };
-
-  // const handleSave = () => {};
 
   useEffect(() => {
     if (loading) {
@@ -107,7 +104,11 @@ const KpiSetting = (props: any) => {
             </li>
           ))}
         </ul>
-        {loading && <div>Loading </div>}
+        {loading && (
+          <div>
+            <Loading />{" "}
+          </div>
+        )}
         <div className="w-full">
           {!loading && (
             <div className="grid gap-2 ">
@@ -136,9 +137,6 @@ const KpiSetting = (props: any) => {
               />
             </div>
           )}
-          {/* <div className="my-4 text-right" onClick={handleSave}>
-          <Button title="Enregistre" bgColor="green" />
-        </div> */}
         </div>
       </div>
     </div>

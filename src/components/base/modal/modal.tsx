@@ -13,7 +13,6 @@ interface IModal {
 
 const Modal = (props: IModal) => {
   const [openModal, setOpenModal] = useState(false);
-  // const [close, setClose] = useState(props.close);
 
   useEffect(() => {
     if (props.close) {

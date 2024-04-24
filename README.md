@@ -18,8 +18,9 @@ Dans cette application, on peut:
 **Langage utilisé**: ReactJS, NextJS, Typescript, Tailwind, Firesbase (pour des données et authentification)
 
 **Exemple pour login**:
-Email: test@yxir.com
-Pass: Abcde@12345
+
+- Email: test@yxir.com
+- Pass: Abcde@12345
 
 ### Architecture
 
@@ -43,6 +44,7 @@ Pass: Abcde@12345
     │   |   |   ├── button
     │   |   |   ├── chart
     │   |   |   ├── dropdown
+    │   |   |   └── loading
     │   |   |   ├── modal
     │   |   |   ├── sidebar
     │   |   |   └── table

@@ -10,3 +10,8 @@ export interface IKpi {
   title?: string;
   datasets: IDatasetsKpi[];
 }
+
+export interface IChart {
+  title: string;
+  data: any;
+}
