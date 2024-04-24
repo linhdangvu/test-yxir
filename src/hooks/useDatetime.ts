@@ -22,6 +22,15 @@ export const useDatetime = () => {
       .replace(/\.\d+Z$/, "");
   };
 
+  const toNanosecond = (date: Date) => {
+    const seconds = Math.floor(date.getTime() / 1000);
+    const nanoseconds = (date.getTime() % 1000) * 1e6;
+    return {
+      seconds: seconds,
+      nanoseconds: nanoseconds,
+    };
+  };
+
   const getMonthIndex = (month: string) => {
     switch (month) {
       case "Fevrier":
@@ -51,5 +60,5 @@ export const useDatetime = () => {
     }
   };
 
-  return { getMonthIndex, months, convertFirebaseDate };
+  return { getMonthIndex, months, convertFirebaseDate, toNanosecond };
 };

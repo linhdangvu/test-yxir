@@ -6,6 +6,7 @@ import Modal from "@/components/base/modal/modal";
 import ProductModal from "@/components/app/product-list/productModal";
 import { IProduct } from "@/interface/product";
 import { useProduct } from "@/hooks/useProduct";
+import { useDatetime } from "@/hooks/useDatetime";
 
 const ProductPage = () => {
   const [productData, setProductData] = useState<IProduct[]>([]);
@@ -17,6 +18,7 @@ const ProductPage = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const useProd = useProduct();
+  const datetime = useDatetime();
 
   const handleChangeModal = (product: string, qtt: number, fac: string) => {
     setProduct(product);
@@ -36,6 +38,7 @@ const ProductPage = () => {
       .fetchAddProductData(prod)
       .then((data: any) => {
         prod["id"] = data;
+        prod["createdDate"] = datetime.toNanosecond(prod.createdDate);
         useProd.productData.push(prod);
         useProd.setData(useProd.productData);
 
