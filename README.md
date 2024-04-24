@@ -57,3 +57,7 @@ Dans cette application, on peut:
     │   └── interface       # type pour data sur Firestore
     │   └── utils           # tools (firebase api)
     └── ...
+
+### Video d’illustration du project
+
+[Vidéo d'explication](https://www.loom.com/share/3c451b4890d64e6095a5c732e54d521b).

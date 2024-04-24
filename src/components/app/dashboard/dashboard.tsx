@@ -41,43 +41,43 @@ const DashboardPage = () => {
   };
 
   // add data for dashboard
-  const handleDropdown = (data: "table" | "kpi" | "carte" | "monitor") => {
+  const handleDropdown = (type: "table" | "kpi" | "carte" | "monitor") => {
     const send_data: any = {
-      type: data,
+      type: type,
     };
     // Send to Firestore
     dashboard
       .fetchAddDashboardData(send_data)
       .then((data: any) => {
         send_data["id"] = data;
+        // Update data on DOM
+        if (type === "table") {
+          dashboard.dashboardData.push(handleProductData(type, send_data.id));
+        } else if (type === "kpi") {
+          dashboard.dashboardData.push({
+            data: kpiChart,
+            type: type,
+            id: send_data.id,
+          });
+        } else if (type === "monitor") {
+          dashboard.dashboardData.push({
+            data: lineChart1,
+            type: type,
+            id: send_data.id,
+          });
+        } else {
+          dashboard.dashboardData.push({
+            data: [],
+            type: type,
+            id: send_data.id,
+          });
+        }
+
+        dashboard.setData(dashboard.dashboardData);
+        console.log(dashboard.dashboardData);
+        setLoadingDashboard(true);
       })
       .catch((e: any) => console.log(e));
-
-    // Update data on DOM
-    if (data === "table") {
-      dashboard.dashboardData.push(handleProductData(data, send_data.id));
-    } else if (data === "kpi") {
-      dashboard.dashboardData.push({
-        data: kpiChart,
-        type: data,
-        id: send_data.id,
-      });
-    } else if (data === "monitor") {
-      dashboard.dashboardData.push({
-        data: lineChart1,
-        type: data,
-        id: send_data.id,
-      });
-    } else {
-      dashboard.dashboardData.push({
-        data: [],
-        type: data,
-        id: send_data.id,
-      });
-    }
-    dashboard.setData(dashboard.dashboardData);
-
-    setLoadingDashboard(true);
   };
 
   // delete data from dashboard
@@ -145,6 +145,7 @@ const DashboardPage = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           {!loadingDashboard &&
+            dashboard.dashboardData.length !== 0 &&
             dashboard.dashboardData.map((item: any, index: number) => (
               <div key={index} className="relative ">
                 <div className="absolute right-2 top-2 flex">
@@ -196,10 +197,16 @@ const DashboardPage = () => {
               </div>
             ))}
 
-          {(loadingDashboard || dashboard.dashboardData.length === 0) && (
+          {loadingDashboard && (
             <div>
               {" "}
               <TextLoading />
+            </div>
+          )}
+
+          {dashboard.dashboardData.length === 0 && (
+            <div className="col-span-2 text-center mt-10">
+              Pas de données pour le moment
             </div>
           )}
         </div>
