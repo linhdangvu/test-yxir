@@ -1,9 +1,13 @@
-const API =
-  "https://firestore.googleapis.com/v1/projects/test-yxir/databases/(default)/documents/Dashboard";
-
 import { db } from "@/utils/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 
+// Create
 export const getFirebaseData = async (nameCollection: string) => {
   const data = collection(db, nameCollection);
   const dataSnapshot = await getDocs(data);
@@ -13,7 +17,25 @@ export const getFirebaseData = async (nameCollection: string) => {
   return dataList;
 };
 
-export const getKpiData = async () => {
-  const data = await getFirebaseData("KPI");
-  return data;
+// Add
+export const addFirebaseData = async (nameCollection: string, data: any) => {
+  try {
+    const docRef = await addDoc(collection(db, nameCollection), data);
+    console.log("Document written with ID: ", docRef.id);
+    return docRef.id;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
+// Delele
+export const deleteFirebaseData = async (
+  nameCollection: string,
+  id: string
+) => {
+  try {
+    await deleteDoc(doc(db, nameCollection, id));
+  } catch (e) {
+    console.error("Error delete document: ", e);
+  }
 };

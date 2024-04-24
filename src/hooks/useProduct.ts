@@ -22,19 +22,10 @@ export const useProduct = () => {
     return productData;
   };
 
-  const getProductData = async () => {
-    try {
-      const data = await getFirebaseData("Product");
-      return data;
-    } catch (e) {
-      console.error("Error get document: ", e);
-    }
-  };
-
   const fetchProductData = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = getProductData();
+        const data = getFirebaseData("Product");
         resolve(data);
       }, TIME_OUT);
     });
@@ -95,7 +86,7 @@ export const useProduct = () => {
   return {
     deleteProductData,
     addProductData,
-    getProductData,
+
     fetchProductData,
     firebaseToProduct,
     fetchAddProductData,

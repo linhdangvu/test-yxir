@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DatasetSetting from "./datasetSetting";
-import Button from "@/components/base/button";
+import Button from "@/components/base/button/button";
 import { useDatetime } from "@/hooks/useDatetime";
 
 const KpiSetting = (props: any) => {

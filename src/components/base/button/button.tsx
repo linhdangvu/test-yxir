@@ -3,6 +3,7 @@ import React from "react";
 interface ButtonData {
   title: string;
   bgColor?: "dark" | "blue" | "red" | "green";
+  onClick?: any;
 }
 
 const Button = (props: ButtonData) => {
@@ -23,7 +24,7 @@ const Button = (props: ButtonData) => {
   };
 
   return (
-    <button type="button" className={getStyles()}>
+    <button type="button" className={getStyles()} onClick={props.onClick}>
       {props.title}
     </button>
   );

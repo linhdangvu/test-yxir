@@ -1,14 +1,7 @@
 import { IProduct } from "@/interface/product";
 import { db } from "@/utils/firebase";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { getFirebaseData } from "./useFirebaseApi";
-import { useState } from "react";
 import { IDatasetsKpi, IKpi } from "@/interface/kpi";
 
 export const useKpiData = () => {
@@ -50,7 +43,7 @@ export const useKpiData = () => {
     }
   };
 
-  const firebaseToKPI = (datasets: IDatasetsKpi[]) => {
+  const firebaseToKPI = (datasets: IDatasetsKpi[] | any) => {
     const default_data: any = {
       options: {
         responsive: true,

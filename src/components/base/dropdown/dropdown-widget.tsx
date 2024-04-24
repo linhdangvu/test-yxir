@@ -4,13 +4,13 @@ import React, { useState } from "react";
 const Dropdown = (props: any) => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const dropdownContent = [
-    "Graphique de surveillance", // 0
-    "Graphique KPI", // 1
-    "Tableau", // 2
-    "Carte", // 3
+    { title: "Graphique de surveillance", val: "monitor" },
+    { title: "Graphique KPI", val: "kpi" },
+    { title: "Liste de produit", val: "table" },
+    { title: "Carte", val: "carte" },
   ];
 
-  const handleDropdown = (id: number) => {
+  const handleDropdown = (id: string) => {
     props.handleDropdownData(id);
   };
 
@@ -42,10 +42,10 @@ const Dropdown = (props: any) => {
                 key={index}
                 className="py-1 hover:bg-gray-50 cursor-pointer"
                 role="none"
-                onClick={() => handleDropdown(index)}
+                onClick={() => handleDropdown(item.val)}
               >
                 <span className="text-gray-700 block px-4 py-2 text-sm">
-                  {item}
+                  {item.title}
                 </span>
               </div>
             );

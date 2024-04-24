@@ -14,6 +14,14 @@ export const useDatetime = () => {
     "Decembre",
   ];
 
+  const convertFirebaseDate = (data: any) => {
+    const date = new Date(data.seconds * 1000 + data.nanoseconds / 1000000);
+    return date
+      .toISOString()
+      .replace("T", " ")
+      .replace(/\.\d+Z$/, "");
+  };
+
   const getMonthIndex = (month: string) => {
     switch (month) {
       case "Fevrier":
@@ -43,5 +51,5 @@ export const useDatetime = () => {
     }
   };
 
-  return { getMonthIndex, months };
+  return { getMonthIndex, months, convertFirebaseDate };
 };
