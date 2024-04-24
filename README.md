@@ -1,5 +1,9 @@
 ## Project de surveillance des activités
 
+### Video d’illustration du project
+
+[Vidéo d'explication](https://www.loom.com/share/3c451b4890d64e6095a5c732e54d521b?sid=1783be3f-c982-44de-ad5b-28a3d1953a2b).
+
 Cette une application qui aide des entreprise à
 
 - Surveiller des produits - `Liste des produits`
@@ -57,7 +61,3 @@ Dans cette application, on peut:
     │   └── interface       # type pour data sur Firestore
     │   └── utils           # tools (firebase api)
     └── ...
-
-### Video d’illustration du project
-
-[Vidéo d'explication](https://www.loom.com/share/3c451b4890d64e6095a5c732e54d521b?sid=1783be3f-c982-44de-ad5b-28a3d1953a2b).
