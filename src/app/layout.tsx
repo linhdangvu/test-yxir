@@ -22,13 +22,11 @@ export default function RootLayout({
   const auth = useAuth();
 
   const [loading, setLoading] = useState(true);
-  const [isLogin, setLogin] = useState(false);
 
   // get login status
   useEffect(() => {
-    // setLoading(true);
     const logStatus = auth.isLoggedin();
-    setLogin(logStatus);
+
     if (pathname.includes("auth")) {
       if (logStatus) {
         router.push("/");
@@ -38,27 +36,36 @@ export default function RootLayout({
         router.push("/auth/login");
       }
     }
-
     setLoading(false);
   });
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        {loading ? (
-          <TextLoading />
-        ) : (
-          <div>
-            {isLogin ? (
-              <div>
-                <SidebarPage />
+        <div>
+          {pathname.includes("auth") ? (
+            <div>
+              {loading ? (
+                <div className="absolute left-1/3 top-1/4">
+                  <TextLoading />
+                </div>
+              ) : (
+                <div>{children} </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <SidebarPage />
+              {loading ? (
+                <div className="absolute left-1/2 top-1/4">
+                  <TextLoading />
+                </div>
+              ) : (
                 <div className="p-4 sm:ml-64">{children} </div>
-              </div>
-            ) : (
-              <div>{children} </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+        </div>
       </body>
     </html>
   );
