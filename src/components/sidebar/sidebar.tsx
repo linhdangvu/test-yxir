@@ -1,13 +1,24 @@
+"use client";
+import { useAuth } from "@/hooks/useAuth";
 import {
+  ArrowLeftStartOnRectangleIcon,
   ArrowTrendingUpIcon,
   ChartBarIcon,
   HomeIcon,
   MapIcon,
   TableCellsIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SidebarPage = () => {
+  const router = useRouter();
+  const auth = useAuth();
+
+  const logOut = () => {
+    auth.isLogOut();
+  };
+
   return (
     <div>
       <aside
@@ -60,6 +71,16 @@ const SidebarPage = () => {
               >
                 <ArrowTrendingUpIcon className="h-6 w-6 text-white-500" />
                 <span className="ms-3">Activités de surveillance</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/auth/login"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                onClick={logOut}
+              >
+                <ArrowLeftStartOnRectangleIcon className="h-6 w-6 text-white-500" />
+                <span className="ms-3">Déconnecter</span>
               </a>
             </li>
           </ul>

@@ -4,6 +4,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SidebarPage from "@/components/sidebar/sidebar";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { usePathname, useRouter } from "next/navigation";
+// import AuthPage from "@/components/auth/auth-page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +21,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const auth = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    auth.isLoggedin();
+    if (!auth.isLogin && !pathname.includes("auth")) {
+      router.push("/auth/login");
+    }
+  });
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SidebarPage />
-        <div className="p-4 sm:ml-64">{children} </div>
+        {auth.isLogin ? (
+          <div>
+            <SidebarPage />
+            <div className="p-4 sm:ml-64">{children} </div>
+          </div>
+        ) : (
+          <div>{children} </div>
+        )}
       </body>
     </html>
   );
